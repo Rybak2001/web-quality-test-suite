@@ -1,6 +1,6 @@
 {
   "framework": null,
-  "buildCommand": "npx ng analytics disable && npx ng build --no-progress",
+  "buildCommand": "npx ng build --no-progress",
   "outputDirectory": "dist/browser",
   "installCommand": "npm install",
   "rewrites": [
