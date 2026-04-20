@@ -55,17 +55,17 @@ import { AuthService } from '../../services/auth.service';
     </div>
   `,
   styles: [`
-    .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%); }
-    .auth-card { width: 100%; max-width: 420px; padding: 40px; border-radius: 12px; }
+    .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #3b2f8a 0%, #5b4fc7 50%, #7c6dd8 100%); }
+    .auth-card { width: 100%; max-width: 420px; padding: 40px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
     .auth-header { text-align: center; margin-bottom: 24px; }
-    .auth-icon { font-size: 48px; width: 48px; height: 48px; color: #1a237e; }
-    .auth-header h1 { margin: 8px 0 4px; font-size: 1.5rem; color: #1a237e; }
-    .auth-header p { color: #666; margin: 0; }
+    .auth-icon { font-size: 48px; width: 48px; height: 48px; color: #5b4fc7; }
+    .auth-header h1 { margin: 8px 0 4px; font-size: 1.5rem; color: #5b4fc7; }
+    .auth-header p { color: #6b7280; margin: 0; }
     .full-width { width: 100%; }
-    .submit-btn { height: 48px; font-size: 1rem; margin-top: 8px; }
-    .error-msg { background: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; margin-bottom: 16px; text-align: center; }
+    .submit-btn { height: 48px; font-size: 1rem; margin-top: 8px; border-radius: 10px !important; }
+    .error-msg { background: #fef2f2; color: #dc2626; padding: 12px; border-radius: 10px; margin-bottom: 16px; text-align: center; border: 1px solid #fecaca; }
     .auth-footer { text-align: center; margin-top: 20px; }
-    .auth-footer a { color: #1a237e; font-weight: 600; margin-left: 4px; text-decoration: none; }
+    .auth-footer a { color: #5b4fc7; font-weight: 600; margin-left: 4px; text-decoration: none; }
     .auth-footer a:hover { text-decoration: underline; }
   `]
 })

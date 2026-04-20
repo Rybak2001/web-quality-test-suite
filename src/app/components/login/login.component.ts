@@ -17,9 +17,9 @@ import { AuthService } from '../../services/auth.service';
     <div class="auth-container">
       <mat-card class="auth-card">
         <div class="auth-header">
-          <mat-icon class="auth-icon">science</mat-icon>
-          <h1>Web Quality Test Suite</h1>
-          <p>Sign in to your account</p>
+          <mat-icon class="auth-logo">science</mat-icon>
+          <h1>SurtiBolivia · QA Suite</h1>
+          <p>Iniciar sesión en tu cuenta</p>
         </div>
         @if (error) {
           <div class="error-msg">{{ error }}</div>
@@ -39,15 +39,15 @@ import { AuthService } from '../../services/auth.service';
             </button>
           </mat-form-field>
           <button mat-raised-button color="primary" type="submit" class="full-width submit-btn" [disabled]="!email || !password">
-            Sign In
+            Iniciar Sesión
           </button>
         </form>
         <div class="auth-footer">
-          <span>Don't have an account?</span>
-          <a routerLink="/register">Register</a>
+          <span>¿No tienes cuenta?</span>
+          <a routerLink="/register">Registrarse</a>
         </div>
         <div class="demo-credentials">
-          <p><strong>Demo credentials:</strong></p>
+          <p><strong>Credenciales de demo:</strong></p>
           <p>Admin: admin&#64;qualitysuite.com / admin123</p>
           <p>Tester: tester&#64;qualitysuite.com / tester123</p>
         </div>
@@ -55,20 +55,20 @@ import { AuthService } from '../../services/auth.service';
     </div>
   `,
   styles: [`
-    .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #1a237e 0%, #283593 50%, #3949ab 100%); }
-    .auth-card { width: 100%; max-width: 420px; padding: 40px; border-radius: 12px; }
+    .auth-container { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #3b2f8a 0%, #5b4fc7 50%, #7c6dd8 100%); }
+    .auth-card { width: 100%; max-width: 420px; padding: 40px; border-radius: 16px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
     .auth-header { text-align: center; margin-bottom: 24px; }
-    .auth-icon { font-size: 48px; width: 48px; height: 48px; color: #1a237e; }
-    .auth-header h1 { margin: 8px 0 4px; font-size: 1.5rem; color: #1a237e; }
-    .auth-header p { color: #666; margin: 0; }
+    .auth-logo { font-size: 48px !important; width: 48px !important; height: 48px !important; color: #5b4fc7; margin-bottom: 8px; }
+    .auth-header h1 { margin: 8px 0 4px; font-size: 1.5rem; color: #5b4fc7; }
+    .auth-header p { color: #6b7280; margin: 0; }
     .full-width { width: 100%; }
-    .submit-btn { height: 48px; font-size: 1rem; margin-top: 8px; }
-    .error-msg { background: #ffebee; color: #c62828; padding: 12px; border-radius: 8px; margin-bottom: 16px; text-align: center; }
+    .submit-btn { height: 48px; font-size: 1rem; margin-top: 8px; border-radius: 10px !important; }
+    .error-msg { background: #fef2f2; color: #dc2626; padding: 12px; border-radius: 10px; margin-bottom: 16px; text-align: center; border: 1px solid #fecaca; }
     .auth-footer { text-align: center; margin-top: 20px; }
-    .auth-footer a { color: #1a237e; font-weight: 600; margin-left: 4px; text-decoration: none; }
+    .auth-footer a { color: #5b4fc7; font-weight: 600; margin-left: 4px; text-decoration: none; }
     .auth-footer a:hover { text-decoration: underline; }
-    .demo-credentials { margin-top: 20px; padding: 12px; background: #e8eaf6; border-radius: 8px; font-size: 0.85rem; }
-    .demo-credentials p { margin: 2px 0; color: #333; }
+    .demo-credentials { margin-top: 20px; padding: 12px; background: #f5f3ff; border-radius: 10px; font-size: 0.85rem; border: 1px solid #ede9fe; }
+    .demo-credentials p { margin: 2px 0; color: #374151; }
   `]
 })
 export class LoginComponent {

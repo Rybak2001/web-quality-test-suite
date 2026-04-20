@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { TestReport } from '../../models/test.models';
 import { ReportService } from '../../services/report.service';
 
 @Component({
   selector: 'app-report-viewer',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatTableModule, MatButtonModule],
+  imports: [CommonModule, MatCardModule, MatTableModule, MatButtonModule, MatIconModule],
   template: `
     <mat-card *ngIf="report" class="report">
       <mat-card-header>
@@ -18,9 +19,9 @@ import { ReportService } from '../../services/report.service';
       </mat-card-header>
       <mat-card-content>
         <div class="summary">
-          <div class="stat pass">✅ {{ report.passed }} passed</div>
-          <div class="stat fail">❌ {{ report.failed }} failed</div>
-          <div class="stat skip">⏭ {{ report.skipped }} skipped</div>
+          <div class="stat pass"><mat-icon class="inline-icon">check_circle</mat-icon> {{ report.passed }} passed</div>
+          <div class="stat fail"><mat-icon class="inline-icon">cancel</mat-icon> {{ report.failed }} failed</div>
+          <div class="stat skip"><mat-icon class="inline-icon">skip_next</mat-icon> {{ report.skipped }} skipped</div>
         </div>
         <table mat-table [dataSource]="report.results" class="results-table">
           <ng-container matColumnDef="name">
