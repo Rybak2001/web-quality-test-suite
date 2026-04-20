@@ -6,12 +6,19 @@ import { User, AuthState } from '../models/user.model';
 export class AuthService {
   private readonly STORAGE_KEY = 'wqts_auth';
   private readonly USERS_KEY = 'wqts_users';
+  private readonly RATE_KEY = 'wqts_login_attempts';
 
   private authState$ = new BehaviorSubject<AuthState>({ user: null, isAuthenticated: false });
+
+  // Rate limiting state
+  loginBlocked = false;
+  blockCountdown = 0;
+  private blockTimer: any = null;
 
   constructor() {
     this.initDefaultUsers();
     this.restoreSession();
+    this.checkRateLimit();
   }
 
   getAuthState(): Observable<AuthState> {
@@ -31,11 +38,17 @@ export class AuthService {
   }
 
   login(email: string, password: string): { success: boolean; error?: string } {
+    if (this.loginBlocked) {
+      return { success: false, error: `Demasiados intentos. Intente de nuevo en ${this.blockCountdown} segundos.` };
+    }
+
     const users = this.getUsers();
     const user = users.find(u => u.email === email && u.password === password);
     if (!user) {
+      this.recordFailedAttempt();
       return { success: false, error: 'Invalid email or password' };
     }
+    this.clearAttempts();
     user.lastLogin = new Date();
     this.saveUsers(users);
     const { password: _, ...safeUser } = user;
@@ -127,5 +140,48 @@ export class AuthService {
       }
     ];
     this.saveUsers(defaults);
+  }
+
+  private recordFailedAttempt(): void {
+    const now = Date.now();
+    const cutoff = now - 60000;
+    const raw = localStorage.getItem(this.RATE_KEY);
+    let attempts: number[] = raw ? JSON.parse(raw) : [];
+    attempts = attempts.filter(t => t > cutoff);
+    attempts.push(now);
+    localStorage.setItem(this.RATE_KEY, JSON.stringify(attempts));
+    if (attempts.length >= 5) {
+      this.startBlock(Math.ceil((attempts[0] + 60000 - now) / 1000));
+    }
+  }
+
+  private clearAttempts(): void {
+    localStorage.removeItem(this.RATE_KEY);
+    this.loginBlocked = false;
+    this.blockCountdown = 0;
+    if (this.blockTimer) { clearInterval(this.blockTimer); this.blockTimer = null; }
+  }
+
+  private checkRateLimit(): void {
+    const raw = localStorage.getItem(this.RATE_KEY);
+    if (!raw) return;
+    const now = Date.now();
+    const cutoff = now - 60000;
+    const attempts: number[] = JSON.parse(raw).filter((t: number) => t > cutoff);
+    if (attempts.length >= 5) {
+      this.startBlock(Math.ceil((attempts[0] + 60000 - now) / 1000));
+    }
+  }
+
+  private startBlock(seconds: number): void {
+    this.loginBlocked = true;
+    this.blockCountdown = seconds;
+    if (this.blockTimer) clearInterval(this.blockTimer);
+    this.blockTimer = setInterval(() => {
+      this.blockCountdown--;
+      if (this.blockCountdown <= 0) {
+        this.clearAttempts();
+      }
+    }, 1000);
   }
 }

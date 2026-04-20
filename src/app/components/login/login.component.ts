@@ -24,6 +24,12 @@ import { AuthService } from '../../services/auth.service';
         @if (error) {
           <div class="error-msg">{{ error }}</div>
         }
+        @if (auth.loginBlocked) {
+          <div class="rate-limit-msg">
+            <mat-icon>timer</mat-icon>
+            Demasiados intentos. Intente de nuevo en {{ auth.blockCountdown }}s
+          </div>
+        }
         <form (ngSubmit)="onSubmit()">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Email</mat-label>
@@ -38,7 +44,7 @@ import { AuthService } from '../../services/auth.service';
               <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
             </button>
           </mat-form-field>
-          <button mat-raised-button color="primary" type="submit" class="full-width submit-btn" [disabled]="!email || !password">
+          <button mat-raised-button color="primary" type="submit" class="full-width submit-btn" [disabled]="!email || !password || auth.loginBlocked">
             Iniciar Sesión
           </button>
         </form>
@@ -69,15 +75,16 @@ import { AuthService } from '../../services/auth.service';
     .auth-footer a:hover { text-decoration: underline; }
     .demo-credentials { margin-top: 20px; padding: 12px; background: #f5f3ff; border-radius: 10px; font-size: 0.85rem; border: 1px solid #ede9fe; }
     .demo-credentials p { margin: 2px 0; color: #374151; }
+    .rate-limit-msg { background: #fef3c7; color: #92400e; padding: 12px; border-radius: 10px; margin-bottom: 16px; text-align: center; border: 1px solid #fde68a; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 600; }
   `]
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  email = 'admin@qualitysuite.com';
+  password = 'admin123';
   error = '';
   showPassword = false;
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(public auth: AuthService, private router: Router) {}
 
   onSubmit(): void {
     const result = this.auth.login(this.email, this.password);
